@@ -1,1 +1,4 @@
-﻿TuntikirjanpitoPäivämäärä		kesto		aihe12.03.2013		1h		Github pystyttämistä, aihemäärittelyä
+TuntikirjanpitoPäivämäärä		kesto		aihe12.03.2013		1h		Github pystyttämistä, aihemäärittelyä
+14.03.2013		4h		Luokkien koodaamista, testien tekoa
+15.03.2013		2h		-- ** --
+19.03.2013		1h		Luokkakaavionpiirtäminen, github-push
