@@ -1,12 +1,10 @@
-package tatu.miinaharava;
+package tatu.miinaharava.logiikka;
 
 public class Ruudukko {
 
-    private boolean[][] ruudut;
+    public Ruutu[][] ruudut;
     private int leveys = 10;
     private int korkeus = 10;
-    private static final boolean tyhja = false;
-    private static final boolean miina = true;
     private int montakoMiinaa = 10;
 
     public int ruudukonKorkeus() {
@@ -21,12 +19,12 @@ public class Ruudukko {
         return this.leveys;
     }
 
-    public boolean asetaMiina(int rivi, int moneskoRivilla) {
+    boolean asetaMiina(int rivi, int moneskoRivilla) {
         if (this.onKunnollisetKoordinaatit(rivi, moneskoRivilla)) {
             if (this.onkoMiina(rivi, moneskoRivilla)) {
                 return false;
             } else {
-                this.ruudut[rivi - 1][moneskoRivilla - 1] = true;
+                this.ruudut[rivi][moneskoRivilla].asetaMiina();
                 return true;
             }
         }
@@ -45,15 +43,41 @@ public class Ruudukko {
 
     public boolean onkoMiina(int rivi, int moneskoRivilla) {
         if (this.onKunnollisetKoordinaatit(rivi, moneskoRivilla)) {
-            return this.ruudut[rivi - 1][moneskoRivilla - 1];
+            return this.ruudut[rivi][moneskoRivilla].onkoMiina();
         }
         return false;
 
     }
+    
+    public boolean onkoRuutuAvattu(int rivi, int moneskoRivilla) {
+        if (this.onKunnollisetKoordinaatit(rivi, moneskoRivilla)) {
+            return this.ruudut[rivi][moneskoRivilla].onkoAvattu();
+        }
+        return false;
+
+    }
+    
+    public boolean onkoRuutuMerkattu(int rivi, int moneskoRivilla) {
+        if (this.onKunnollisetKoordinaatit(rivi, moneskoRivilla)) {
+            return this.ruudut[rivi][moneskoRivilla].onkoMerkattu();
+        }
+        return false;
+    }
+    
+    public boolean onkoYmparillaOlevienMiinojenMaaraAnnettu(int rivi, int moneskoRivilla) {
+        if (this.onKunnollisetKoordinaatit(rivi, moneskoRivilla)) {
+            return this.ruudut[rivi][moneskoRivilla].onkoYmparillaOlevienMiinojenMaaraAnnettu();
+        }
+        return false;
+    }
 
     private boolean miinoitaRuudukko(int montakoMiinaa) {
-        this.montakoMiinaa = montakoMiinaa;
-
+        if (montakoMiinaa < 5) {
+            this.montakoMiinaa = 5;
+        } else {
+            this.montakoMiinaa = montakoMiinaa;
+        }
+        
         int kasiteltavaRivi;
         int kasiteltavaRuutuRivilla;
         int asetetutMiinat = 0;
@@ -66,11 +90,6 @@ public class Ruudukko {
                 this.asetaMiina(kasiteltavaRivi, kasiteltavaRuutuRivilla);
 
                 asetetutMiinat++;
-            }
-        }
-        if (asetetutMiinat == this.miinojenMaara()) {
-            if (asetetutMiinat == this.getMiinojenMaaraRaakaTarkistus()) {
-                return true;
             }
         }
         return false;
@@ -89,43 +108,20 @@ public class Ruudukko {
             this.korkeus = korkeus;
         }
 
-        this.ruudut = new boolean[this.ruudukonKorkeus()][this.ruudukonLeveys()];
+        this.ruudut = new Ruutu[this.korkeus + 1][this.leveys + 1];
+        for (int kasiteltavaRivi = 1; kasiteltavaRivi <= this.ruudukonKorkeus(); kasiteltavaRivi++) {
+            for (int kasiteltavaRuutuRivilla = 1; kasiteltavaRuutuRivilla <= this.ruudukonLeveys(); kasiteltavaRuutuRivilla++) {
+                this.ruudut[kasiteltavaRivi][kasiteltavaRuutuRivilla] = new Ruutu(kasiteltavaRivi, kasiteltavaRuutuRivilla);
+            }
+        }
     }
 
     public boolean onKunnollisetKoordinaatit(int rivi, int moneskoRivilla) {
-        rivi -= 1;
-        moneskoRivilla -= 1;
-        if (rivi >= 0 && moneskoRivilla >= 0) {
-            if (rivi < this.ruudukonKorkeus() && moneskoRivilla < this.ruudukonLeveys()) {
+        if (rivi >= 1 && moneskoRivilla >= 1) {
+            if (rivi <= this.ruudukonKorkeus() && moneskoRivilla <= this.ruudukonLeveys()) {
                 return true;
             }
         }
         return false;
-    }
-
-    public int getMiinojenMaaraRaakaTarkistus() {
-        int miinojenMaara = 0;
-
-        for (int kasiteltavaRivi = 1; kasiteltavaRivi <= this.ruudukonKorkeus(); kasiteltavaRivi++) {
-            for (int kasiteltavaRuutuRivilla = 1; kasiteltavaRuutuRivilla <= this.ruudukonLeveys(); kasiteltavaRuutuRivilla++) {
-                if (this.onkoMiina(kasiteltavaRivi, kasiteltavaRuutuRivilla)) {
-                    miinojenMaara++;
-                }
-            }
-        }
-        return miinojenMaara;
-    }
-
-    public void tulostaRuudukko() {
-        for (int kasiteltavaRivi = 1; kasiteltavaRivi <= this.ruudukonKorkeus(); kasiteltavaRivi++) {
-            for (int kasiteltavaRuutuRivilla = 1; kasiteltavaRuutuRivilla <= this.ruudukonLeveys(); kasiteltavaRuutuRivilla++) {
-                if (this.onkoMiina(kasiteltavaRivi, kasiteltavaRuutuRivilla)) {
-                    System.out.print("X ");
-                } else {
-                    System.out.print("O ");
-                }
-            }
-            System.out.println("");
-        }
     }
 }
