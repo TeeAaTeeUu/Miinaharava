@@ -1,32 +1,48 @@
 package tatu.miinaharava.gui;
 
-import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import tatu.miinaharava.logiikka.Pelilauta;
 
 public class RuudunKuuntelija extends MouseAdapter {
 
     private final Pelilauta pelilauta;
-    private final GUI gui;
+    private final PelikenttaGUI gui;
 
-    public RuudunKuuntelija(Pelilauta pelilauta, GUI gui) {
+    public RuudunKuuntelija(Pelilauta pelilauta, PelikenttaGUI gui) {
         this.pelilauta = pelilauta;
         this.gui = gui;
     }
 
     @Override
-    public void mouseClicked(MouseEvent klik) {
+    public void mousePressed(MouseEvent klik) {
         RuutuGUI painettuRuutu = (RuutuGUI) klik.getSource();
 
-        pelilauta.avaaRuutu(painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla());
+        if (SwingUtilities.isRightMouseButton(klik) == true) {
+            pelilauta.merkkaaRuutu(painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla());
+            painettuRuutu.setText("m");
+        } else {
+            if (pelilauta.onkoPeliAlkanut() == false) {
+                pelilauta.miinoitaRuudukko(pelilauta.miinojenMaara(), painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla());
+                pelilauta.asetaPeliAlkaneeksi();
+            }
 
-        painettuRuutu.setBackground(Color.white);
-        if (pelilauta.onkoMiinaAvattu() == true) {
-            JOptionPane.showMessageDialog(null, "Osuit miinaan, hävisit!");
+            if (pelilauta.onkoRuutuMerkattu(painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla()) == false) {
+                pelilauta.avaaRuutu(painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla());
+                painettuRuutu.setOpaque(true);
+                painettuRuutu.setBorder(null);
+            } else {
+                pelilauta.merkkaaRuutu(painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla());
+                painettuRuutu.setText("");
+            }
+
+            gui.paivitaPelikentta();
+
+            if (pelilauta.onkoMiinaAvattu() == true) {
+                JOptionPane.showMessageDialog(null, "Osuit miinaan, hävisit!");
+            }
         }
-        
-        gui.paivitaPelikentta();
     }
 }

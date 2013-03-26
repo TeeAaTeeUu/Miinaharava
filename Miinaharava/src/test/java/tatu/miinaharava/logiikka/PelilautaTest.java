@@ -18,7 +18,7 @@ public class PelilautaTest {
     public void tulostaLasketutRuudut() {
         for (int kasiteltavaRivi = 1; kasiteltavaRivi <= this.pelilauta.ruudukonKorkeus(); kasiteltavaRivi++) {
             for (int kasiteltavaRuutuRivilla = 1; kasiteltavaRuutuRivilla <= this.pelilauta.ruudukonLeveys(); kasiteltavaRuutuRivilla++) {
-                System.out.print(this.pelilauta.montakoMiinaaYmparilla(kasiteltavaRivi, kasiteltavaRuutuRivilla));
+                System.out.print(this.pelilauta.montakoMiinaaRuudunYmparilla(kasiteltavaRivi, kasiteltavaRuutuRivilla));
             }
             System.out.println("");
         }
@@ -40,7 +40,7 @@ public class PelilautaTest {
     public void tulostaMiinat() {
         for (int kasiteltavaRivi = 1; kasiteltavaRivi <= this.pelilauta.ruudukonKorkeus(); kasiteltavaRivi++) {
             for (int kasiteltavaRuutuRivilla = 1; kasiteltavaRuutuRivilla <= this.pelilauta.ruudukonLeveys(); kasiteltavaRuutuRivilla++) {
-                if (this.pelilauta.onkoMiina(kasiteltavaRivi, kasiteltavaRuutuRivilla)) {
+                if (this.pelilauta.onkoRuutuMiinoitettu(kasiteltavaRivi, kasiteltavaRuutuRivilla)) {
                     System.out.print("X ");
                 } else {
                     System.out.print("O ");
@@ -53,7 +53,7 @@ public class PelilautaTest {
     private boolean etsiJaAvaaMiina() {
         for (int kasiteltavaRivi = 1; kasiteltavaRivi <= this.pelilauta.ruudukonKorkeus(); kasiteltavaRivi++) {
             for (int kasiteltavaRuutuRivilla = 1; kasiteltavaRuutuRivilla <= this.pelilauta.ruudukonLeveys(); kasiteltavaRuutuRivilla++) {
-                if (this.pelilauta.onkoMiina(kasiteltavaRivi, kasiteltavaRuutuRivilla)) {
+                if (this.pelilauta.onkoRuutuMiinoitettu(kasiteltavaRivi, kasiteltavaRuutuRivilla)) {
                     System.out.println("löytyi!");
                     System.out.println(kasiteltavaRivi + ":" + kasiteltavaRuutuRivilla);
                     return this.pelilauta.avaaRuutu(kasiteltavaRivi, kasiteltavaRuutuRivilla);
@@ -68,7 +68,7 @@ public class PelilautaTest {
         for (int kasiteltavaRivi = 1; kasiteltavaRivi <= this.pelilauta.ruudukonKorkeus(); kasiteltavaRivi++) {
             for (int kasiteltavaRuutuRivilla = 1; kasiteltavaRuutuRivilla <= this.pelilauta.ruudukonLeveys(); kasiteltavaRuutuRivilla++) {
                 if (this.pelilauta.onkoRuutuAvattu(kasiteltavaRivi, kasiteltavaRuutuRivilla) == false) {
-                    if (this.pelilauta.onkoMiina(kasiteltavaRivi, kasiteltavaRuutuRivilla) == false) {
+                    if (this.pelilauta.onkoRuutuMiinoitettu(kasiteltavaRivi, kasiteltavaRuutuRivilla) == false) {
                         this.pelilauta.avaaRuutu(kasiteltavaRivi, kasiteltavaRuutuRivilla);
                     } else {
                         ++miinoja;
@@ -128,8 +128,8 @@ public class PelilautaTest {
     @Test
     public void ruudunLukuOnOikea() {
         int miinoja = pelilauta.tarkistaYmparoidytRuudut(8, 8);
-        pelilauta.asetaRuudulleLuku(8, 8, miinoja);
-        assertEquals(miinoja, pelilauta.montakoMiinaaYmparilla(8, 8));
+        pelilauta.asetaMontakoMiinaaYmparilla(8, 8, miinoja);
+        assertEquals(miinoja, pelilauta.montakoMiinaaRuudunYmparilla(8, 8));
     }
 
     @Test

@@ -16,7 +16,7 @@ public class RuudukkoTest {
     public void tulostaRuudukko() {
         for (int kasiteltavaRivi = 1; kasiteltavaRivi <= this.ruudukko.ruudukonKorkeus(); kasiteltavaRivi++) {
             for (int kasiteltavaRuutuRivilla = 1; kasiteltavaRuutuRivilla <= this.ruudukko.ruudukonLeveys(); kasiteltavaRuutuRivilla++) {
-                if (this.ruudukko.onkoMiina(kasiteltavaRivi, kasiteltavaRuutuRivilla)) {
+                if (this.ruudukko.onkoRuutuMiinoitettu(kasiteltavaRivi, kasiteltavaRuutuRivilla)) {
                     System.out.print("X ");
                 } else {
                     System.out.print("O ");
@@ -31,7 +31,7 @@ public class RuudukkoTest {
 
         for (int kasiteltavaRivi = 1; kasiteltavaRivi <= this.ruudukko.ruudukonKorkeus(); kasiteltavaRivi++) {
             for (int kasiteltavaRuutuRivilla = 1; kasiteltavaRuutuRivilla <= this.ruudukko.ruudukonLeveys(); kasiteltavaRuutuRivilla++) {
-                if (this.ruudukko.onkoMiina(kasiteltavaRivi, kasiteltavaRuutuRivilla)) {
+                if (this.ruudukko.onkoRuutuMiinoitettu(kasiteltavaRivi, kasiteltavaRuutuRivilla)) {
                     miinojenMaara++;
                 }
             }
@@ -75,7 +75,7 @@ public class RuudukkoTest {
 
     @Test
     public void miinojaOnOikeaMaaraVakiona() {
-        assertEquals(10, this.ruudukko.miinojenMaara());
+        assertEquals(20, this.ruudukko.miinojenMaara());
     }
 
     @Test
@@ -97,7 +97,7 @@ public class RuudukkoTest {
     
     @Test
     public void miinaaEiVoiTarkastaaJosHuonotKordinaatit() {
-        assertEquals(false, ruudukko.onkoMiina(11, 8));
+        assertEquals(false, ruudukko.onkoRuutuMiinoitettu(11, 8));
     }
 
     @Test
@@ -108,7 +108,7 @@ public class RuudukkoTest {
 
     @Test
     public void miinojaVakionaOnOikeaMaaraRaakaTarkistus() {
-        assertEquals(10, getMiinojenMaaraRaakaTarkistus());
+        assertEquals(20, getMiinojenMaaraRaakaTarkistus());
     }
 
     @Test

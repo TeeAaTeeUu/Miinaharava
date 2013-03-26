@@ -14,7 +14,7 @@ public class RuutuGUI extends JButton {
     private final Pelilauta pelilauta;
     private RuudunKuuntelija ruudunKuuntelija;
 
-    public RuutuGUI(int moneskoRivi, int moneskoRivilla, Pelilauta pelilauta, GUI gui) {
+    public RuutuGUI(int moneskoRivi, int moneskoRivilla, Pelilauta pelilauta, PelikenttaGUI gui) {
         this.moneskoRivi = moneskoRivi;
         this.moneskoRivilla = moneskoRivilla;
 

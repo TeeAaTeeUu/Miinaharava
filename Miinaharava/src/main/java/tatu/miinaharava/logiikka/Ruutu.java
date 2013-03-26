@@ -26,7 +26,7 @@ public class Ruutu {
     public boolean onkoMiina() {
         return this.onkoMiina;
     }
-    
+
     public boolean onkoYmparillaOlevienMiinojenMaaraAnnettu() {
         return this.onkoYmparillaOlevienMiinojenMaaraAnnettu;
     }
@@ -34,7 +34,7 @@ public class Ruutu {
     public boolean onkoAvattu() {
         return this.onkoAvattu;
     }
-    
+
     public boolean onkoMerkattu() {
         return this.onkoMerkattu;
     }
@@ -68,8 +68,8 @@ public class Ruutu {
         this.onkoMiina = true;
         return true;
     }
-    
-    public boolean avaaRuutu() {
+
+    public boolean avaa() {
         this.onkoAvattu = true;
         return true;
     }

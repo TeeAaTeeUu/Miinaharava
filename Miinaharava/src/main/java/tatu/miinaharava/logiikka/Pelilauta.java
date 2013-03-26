@@ -3,12 +3,26 @@ package tatu.miinaharava.logiikka;
 public class Pelilauta extends Ruudukko {
 
     private boolean miinaAvattu = false;
+    private boolean peliAlkanut = false;
 
     public Pelilauta(int korkeus, int leveys, int montakoMiinaa) {
         super(korkeus, leveys, montakoMiinaa);
     }
+    
+    public Pelilauta(int korkeus, int leveys) {
+        super(korkeus, leveys);
+    }
 
     public Pelilauta() {
+        super();
+    }
+    
+    public Pelilauta(int korkeus, int leveys, int montakoMiinaa, boolean miinoitetaanko) {
+        super(korkeus, leveys, montakoMiinaa, miinoitetaanko);
+    }
+    
+    public Pelilauta(boolean miinoitetaanko) {
+        super(miinoitetaanko);
     }
 
     public boolean onkoMiinaAvattu() {
@@ -19,14 +33,17 @@ public class Pelilauta extends Ruudukko {
         this.miinaAvattu = true;
         return true;
     }
-
-    public int montakoMiinaaYmparilla(int rivi, int moneskoRivilla) {
-        if (this.onKunnollisetKoordinaatit(rivi, moneskoRivilla)) {
-            return this.ruudut[rivi][moneskoRivilla].montakoMiinaaYmparilla();
-        }
-        return -1;
+    
+    public boolean onkoPeliAlkanut() {
+        return peliAlkanut;
+    }
+    
+    public boolean asetaPeliAlkaneeksi() {
+        this.peliAlkanut = true;
+        return true;
     }
 
+    @Override
     public boolean avaaRuutu(int rivi, int moneskoRivilla) {
         if (this.onKunnollisetKoordinaatit(rivi, moneskoRivilla) == false) {
             return false;
@@ -34,9 +51,9 @@ public class Pelilauta extends Ruudukko {
         if (this.onkoRuutuAvattu(rivi, moneskoRivilla) == true) {
             return true;
         }
-        this.asetaRuutuAvatuksi(rivi, moneskoRivilla);
+        super.avaaRuutu(rivi, moneskoRivilla);
 
-        if (this.onkoMiina(rivi, moneskoRivilla) == true) {
+        if (this.onkoRuutuMiinoitettu(rivi, moneskoRivilla) == true) {
             this.asetaMiinaAvatuksi();
             return true;
         }
@@ -45,36 +62,12 @@ public class Pelilauta extends Ruudukko {
 
     private boolean avaaRuutuLoop(int rivi, int moneskoRivilla) {
         int ymparillaOlevienMiinojenMaara = this.tarkistaYmparoidytRuudut(rivi, moneskoRivilla);
-        this.asetaRuudulleLuku(rivi, moneskoRivilla, ymparillaOlevienMiinojenMaara);
+        this.asetaMontakoMiinaaYmparilla(rivi, moneskoRivilla, ymparillaOlevienMiinojenMaara);
 
         if (ymparillaOlevienMiinojenMaara == 0) {
             return this.avaaYmparoidutRuudut(rivi, moneskoRivilla);
         }
         return true;
-    }
-
-    private boolean asetaRuutuAvatuksi(int rivi, int moneskoRivilla) {
-        if (this.onKunnollisetKoordinaatit(rivi, moneskoRivilla)) {
-            this.ruudut[rivi][moneskoRivilla].avaaRuutu();
-            return true;
-        }
-        return false;
-    }
-
-    public boolean merkkaaRuutu(int rivi, int moneskoRivilla) {
-        if (this.onKunnollisetKoordinaatit(rivi, moneskoRivilla)) {
-                this.ruudut[rivi][moneskoRivilla].merkkaa();
-                return true;
-        }
-        return false;
-    }
-
-    boolean asetaRuudulleLuku(int rivi, int moneskoRivilla, int ymparillaOlevienMiinojenMaara) {
-        if (this.onKunnollisetKoordinaatit(rivi, moneskoRivilla)) {
-            this.ruudut[rivi][moneskoRivilla].asetaMontakoMiinaaYmparilla(ymparillaOlevienMiinojenMaara);
-            return true;
-        }
-        return false;
     }
 
     int tarkistaYmparoidytRuudut(int rivi, int moneskoRivilla) {
@@ -110,7 +103,7 @@ public class Pelilauta extends Ruudukko {
 
     private int tarkistaRuutu(int rivi, int moneskoRivilla) {
         if (this.onKunnollisetKoordinaatit(rivi, moneskoRivilla)) {
-            if (this.onkoMiina(rivi, moneskoRivilla)) {
+            if (this.onkoRuutuMiinoitettu(rivi, moneskoRivilla)) {
                 return 1;
             }
         }
