@@ -1,5 +1,8 @@
 package tatu.miinaharava.logiikka;
 
+/**
+ * Toteuttaa korkeantason ristinolla-logiikan, eli avatessa ruutua avaa myös mahdolliset muutokset muissa ruuduissa avatun ympärillä.
+ */
 public class Pelilauta extends Ruudukko {
 
     private boolean miinaAvattu = false;

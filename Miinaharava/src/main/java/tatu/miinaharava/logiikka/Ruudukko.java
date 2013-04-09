@@ -1,5 +1,9 @@
 package tatu.miinaharava.logiikka;
 
+/**
+ * Hallinnoi ruudukon ruutuja, miinoittaa alustuksessa ja päivittää käyttämiään
+ * ruutuja.
+ */
 public class Ruudukko {
 
     public Ruutu[][] ruudut;
@@ -34,15 +38,13 @@ public class Ruudukko {
     public Ruudukko(int korkeus, int leveys, int montakoMiinaa) {
         this(korkeus, leveys, montakoMiinaa, true);
     }
-    
 
     public Ruudukko(int korkeus, int leveys, int montakoMiinaa, boolean miinoitetaanko) {
         this.alustaRuudut(korkeus, leveys);
         if (miinoitetaanko == true) {
             this.miinoitaRuudukko(montakoMiinaa);
-        } else {
-            this.asetaMontakoMiinaa(montakoMiinaa);
         }
+        this.asetaMontakoMiinaa(montakoMiinaa);
     }
 
     public Ruudukko(int korkeus, int leveys) {
@@ -128,8 +130,9 @@ public class Ruudukko {
 
     boolean asetaMontakoMiinaaYmparilla(int rivi, int moneskoRivilla, int ymparillaOlevienMiinojenMaara) {
         if (this.onKunnollisetKoordinaatit(rivi, moneskoRivilla)) {
-            this.ruudut[rivi][moneskoRivilla].asetaMontakoMiinaaYmparilla(ymparillaOlevienMiinojenMaara);
-            return true;
+            if (this.ruudut[rivi][moneskoRivilla].asetaMontakoMiinaaYmparilla(ymparillaOlevienMiinojenMaara) == true) {
+                return true;
+            }
         }
         return false;
     }

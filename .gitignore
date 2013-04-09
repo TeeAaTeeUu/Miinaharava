@@ -5,3 +5,5 @@
 .DS_Store
 
 *.*~
+/Miinaharava/target/
+Miinaharava/src/main/java/tatu/miinaharava/gui/Valikko.java

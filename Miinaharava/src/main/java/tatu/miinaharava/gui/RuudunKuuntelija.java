@@ -6,6 +6,9 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import tatu.miinaharava.logiikka.Pelilauta;
 
+/**
+ * Kuuntelee käyttäjän hiireneleitä ja reagoi niihin sen mukaan kuin on oletettavaa Ristinollalle. Käyttää hyväkseen Pelilautaa ja PelikenttaGUIta.
+ */
 public class RuudunKuuntelija extends MouseAdapter {
 
     private final Pelilauta pelilauta;
@@ -14,6 +17,10 @@ public class RuudunKuuntelija extends MouseAdapter {
     public RuudunKuuntelija(Pelilauta pelilauta, PelikenttaGUI gui) {
         this.pelilauta = pelilauta;
         this.gui = gui;
+    }
+
+    RuudunKuuntelija() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

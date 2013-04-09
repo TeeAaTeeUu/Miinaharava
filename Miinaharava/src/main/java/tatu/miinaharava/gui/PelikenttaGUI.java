@@ -8,17 +8,20 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import tatu.miinaharava.logiikka.Pelilauta;
 
+/**
+ * Sisältää pelikenttään liittyvät graafiset ominaisuudet, käyttää hyväkseen luokkaa Pelilauta ja RuutuGUI.
+ */
 public final class PelikenttaGUI extends JFrame {
 
     private Pelilauta pelilauta;
     private JPanel pelikentta;
     private GridLayout peliRuudukko;
     private RuutuGUI[][] ruudut;
+    private RuudunKuuntelija ruudunKuuntelija;
 
     public PelikenttaGUI() {
         this.pelilauta = new Pelilauta(50, 50, 300, false);
-
-//        this.luoValikot();
+        this.ruudunKuuntelija = new RuudunKuuntelija(this.pelilauta, this);
 
         this.valmistelePeli();
     }
@@ -28,7 +31,7 @@ public final class PelikenttaGUI extends JFrame {
 
         for (int kasiteltavaRivi = 1; kasiteltavaRivi <= this.pelilauta.ruudukonKorkeus(); kasiteltavaRivi++) {
             for (int kasiteltavaRuutuRivilla = 1; kasiteltavaRuutuRivilla <= this.pelilauta.ruudukonLeveys(); kasiteltavaRuutuRivilla++) {
-                this.ruudut[kasiteltavaRivi][kasiteltavaRuutuRivilla] = new RuutuGUI(kasiteltavaRivi, kasiteltavaRuutuRivilla, pelilauta, this);
+                this.ruudut[kasiteltavaRivi][kasiteltavaRuutuRivilla] = new RuutuGUI(kasiteltavaRivi, kasiteltavaRuutuRivilla, pelilauta, this, this.ruudunKuuntelija);
                 this.pelikentta.add(this.ruudut[kasiteltavaRivi][kasiteltavaRuutuRivilla]);
             }
         }
@@ -51,7 +54,7 @@ public final class PelikenttaGUI extends JFrame {
         for (int kasiteltavaRivi = 1; kasiteltavaRivi <= this.pelilauta.ruudukonKorkeus(); kasiteltavaRivi++) {
             for (int kasiteltavaRuutuRivilla = 1; kasiteltavaRuutuRivilla <= this.pelilauta.ruudukonLeveys(); kasiteltavaRuutuRivilla++) {
 
-                tarkistaOnkoRuutuAvattu(kasiteltavaRivi, kasiteltavaRuutuRivilla);
+                this.tarkistaOnkoRuutuAvattu(kasiteltavaRivi, kasiteltavaRuutuRivilla);
                 
                 if(this.pelilauta.onkoMiinaAvattu() == true) {
                     tarkistaOnkoRuutuMiinoitettu(kasiteltavaRivi, kasiteltavaRuutuRivilla);
@@ -81,8 +84,8 @@ public final class PelikenttaGUI extends JFrame {
         if (this.pelilauta.onkoRuutuAvattu(kasiteltavaRivi, kasiteltavaRuutuRivilla) == true) {
             this.ruudut[kasiteltavaRivi][kasiteltavaRuutuRivilla].setOpaque(true);
             this.ruudut[kasiteltavaRivi][kasiteltavaRuutuRivilla].setBorder(null);
-            tarkistaOnkoRuutuMiinoitettu(kasiteltavaRivi, kasiteltavaRuutuRivilla);
-            tarkistaOnkoYmparillaOlevienMiinojenMaaraAnnettu(kasiteltavaRivi, kasiteltavaRuutuRivilla);
+            this.tarkistaOnkoRuutuMiinoitettu(kasiteltavaRivi, kasiteltavaRuutuRivilla);
+            this.tarkistaOnkoYmparillaOlevienMiinojenMaaraAnnettu(kasiteltavaRivi, kasiteltavaRuutuRivilla);
         }
     }
 
@@ -114,4 +117,5 @@ public final class PelikenttaGUI extends JFrame {
             this.ruudut[kasiteltavaRivi][kasiteltavaRuutuRivilla].setText("X");
         }
     }
+
 }

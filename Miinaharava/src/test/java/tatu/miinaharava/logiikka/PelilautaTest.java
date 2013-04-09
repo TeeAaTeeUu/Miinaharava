@@ -136,4 +136,32 @@ public class PelilautaTest {
     public void kaikkienRuutujenAvaaminenOnnistuu() {
         assertEquals(pelilauta.miinojenMaara(), etsiJaAvaaKaikkiTyhjat());
     }
+    
+    @Test
+    public void pelilautaVakionaOikea() {
+        pelilauta = new Pelilauta(13,12);
+        assertEquals(13, pelilauta.ruudukonKorkeus());
+        assertEquals(12, pelilauta.ruudukonLeveys());
+    }
+    
+    @Test
+    public void pelilautaVakionaOikea2() {
+        pelilauta = new Pelilauta(13,12, 15, true);
+        assertEquals(13, pelilauta.ruudukonKorkeus());
+        assertEquals(12, pelilauta.ruudukonLeveys());
+    }
+    
+    @Test
+    public void pelilautaVakionaOikea3() {
+        pelilauta = new Pelilauta(true);
+        assertEquals(10, pelilauta.ruudukonKorkeus());
+        assertEquals(10, pelilauta.ruudukonLeveys());
+    }
+    
+    @Test
+    public void pelinAsettaminenAlkaneeksiToimii() {
+        pelilauta.asetaPeliAlkaneeksi();
+        pelilauta.asetaPeliAlkaneeksi();
+        assertEquals(true, pelilauta.onkoPeliAlkanut());
+    }
 }

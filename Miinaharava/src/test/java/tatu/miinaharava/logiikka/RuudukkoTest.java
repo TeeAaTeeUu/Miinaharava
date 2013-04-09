@@ -119,4 +119,18 @@ public class RuudukkoTest {
         assertEquals(true, this.ruudukko.onKunnollisetKoordinaatit(10, 10));
         assertEquals(false, this.ruudukko.onKunnollisetKoordinaatit(10, 11));
     }
+    
+    @Test
+    public void ruudukkoOnVakionaOikea() {
+        ruudukko = new Ruudukko(12,14);
+        assertEquals(14, ruudukko.ruudukonLeveys());
+        assertEquals(12, ruudukko.ruudukonKorkeus());
+    }
+    
+    @Test
+    public void ymparillaOlevienMiinojenMaaranAsettaminenToimii() {
+        ruudukko.asetaMontakoMiinaaYmparilla(7, 6, 1);
+        assertEquals(false, ruudukko.asetaMontakoMiinaaYmparilla(7, 6, 1));
+        assertEquals(true, ruudukko.onkoYmparillaOlevienMiinojenMaaraAnnettu(7, 6));
+    }
 }

@@ -5,6 +5,9 @@ import java.awt.Insets;
 import javax.swing.*;
 import tatu.miinaharava.logiikka.Pelilauta;
 
+/**
+ * Toimii graafisena olioina pelikentän yhdenruudun tilalle.
+ */
 public class RuutuGUI extends JButton {
 
     Dimension d = new Dimension(24, 24);
@@ -14,12 +17,12 @@ public class RuutuGUI extends JButton {
     private final Pelilauta pelilauta;
     private RuudunKuuntelija ruudunKuuntelija;
 
-    public RuutuGUI(int moneskoRivi, int moneskoRivilla, Pelilauta pelilauta, PelikenttaGUI gui) {
+    public RuutuGUI(int moneskoRivi, int moneskoRivilla, Pelilauta pelilauta, PelikenttaGUI gui, RuudunKuuntelija ruudunKuuntelija) {
         this.moneskoRivi = moneskoRivi;
         this.moneskoRivilla = moneskoRivilla;
 
         this.pelilauta = pelilauta;
-        this.ruudunKuuntelija = new RuudunKuuntelija(this.pelilauta, gui);
+        this.ruudunKuuntelija = ruudunKuuntelija;
 
         setMargin(rajat);
         setPreferredSize(d);
