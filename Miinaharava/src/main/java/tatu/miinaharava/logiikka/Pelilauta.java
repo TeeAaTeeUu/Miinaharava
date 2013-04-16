@@ -1,33 +1,69 @@
 package tatu.miinaharava.logiikka;
 
 /**
- * Toteuttaa korkeantason ristinolla-logiikan, eli avatessa ruutua avaa myös mahdolliset muutokset muissa ruuduissa avatun ympärillä.
+ * Toteuttaa korkeantason ristinolla-logiikan, eli avatessa ruutua avaa myös
+ * mahdolliset muutokset muissa ruuduissa avatun ympärillä.
  */
 public class Pelilauta extends Ruudukko {
 
     private boolean miinaAvattu = false;
     private boolean peliAlkanut = false;
 
+    /**
+     * Luo miinoitetun pelilaudan vapaavalintaisella korkeudella, leveydellä ja
+     * miinojenmäärällä.
+     *
+     * @param korkeus ruudukonkorkeus
+     * @param leveys ruuudukon leveys
+     * @param montakoMiinaa miinojen määrä pelilaudalla.
+     */
     public Pelilauta(int korkeus, int leveys, int montakoMiinaa) {
         super(korkeus, leveys, montakoMiinaa);
     }
-    
+
+    /**
+     * Luo pelilaudan vapaavalintaisella korkeudella ja leveydellä.
+     *
+     * @param korkeus pelilaudan korkeus
+     * @param leveys pelilaudan leveys
+     */
     public Pelilauta(int korkeus, int leveys) {
         super(korkeus, leveys);
     }
 
+    /**
+     * Luo vakiokokoisen miinoitetun pelilaudan.
+     */
     public Pelilauta() {
         super();
     }
-    
+
+    /**
+     * Luo pelilaudan vapaavalintaisella korkeudella, leveydellä ja
+     * miinojenmäärällä.
+     *
+     * @param korkeus pelilaudan korkeus
+     * @param leveys pelilaudan leveys
+     * @param montakoMiinaa miinojen määrä pelilaudassa.
+     * @param miinoitetaanko miinoitetaanko pelilauta heti vai ei.
+     */
     public Pelilauta(int korkeus, int leveys, int montakoMiinaa, boolean miinoitetaanko) {
         super(korkeus, leveys, montakoMiinaa, miinoitetaanko);
     }
-    
+
+    /**
+     * Luo vakiokokoisen pelilaudan miinoitettuna tai ilman.
+     *
+     * @param miinoitetaanko Eli miinoitetaanko vai ei, false/true.
+     */
     public Pelilauta(boolean miinoitetaanko) {
         super(miinoitetaanko);
     }
 
+    /**
+     *
+     * @return palauttaa jos miinaruutu avattu.
+     */
     public boolean onkoMiinaAvattu() {
         return this.miinaAvattu;
     }
@@ -36,14 +72,26 @@ public class Pelilauta extends Ruudukko {
         this.miinaAvattu = true;
         return true;
     }
-    
+
+    /**
+     *
+     * @return josko ensimmäinen ruutu on jo avattu.
+     */
     public boolean onkoPeliAlkanut() {
         return peliAlkanut;
     }
-    
+
+    /**
+     * Asettaa pelin alkaneeksi.
+     *
+     * @return aina true, ellei peli päättynyt.
+     */
     public boolean asetaPeliAlkaneeksi() {
         this.peliAlkanut = true;
-        return true;
+        if (this.onkoMiinaAvattu() == false) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -73,7 +121,13 @@ public class Pelilauta extends Ruudukko {
         return true;
     }
 
-    int tarkistaYmparoidytRuudut(int rivi, int moneskoRivilla) {
+    /**
+     *Tarkistaa ympäröidyt ruudut ruudun avauksen jälkeen, ja toimii pelilogiikan mukaisesti.
+     * @param rivi millä rivillä
+     * @param moneskoRivilla millä sarakkeella
+     * @return miinojen määrä.
+     */
+    protected int tarkistaYmparoidytRuudut(int rivi, int moneskoRivilla) {
         int miinojenMaara = 0;
 
         miinojenMaara += this.tarkistaRuutu(rivi - 1, moneskoRivilla - 1);

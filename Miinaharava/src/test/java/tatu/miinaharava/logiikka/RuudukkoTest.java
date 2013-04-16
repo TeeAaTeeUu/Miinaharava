@@ -85,6 +85,13 @@ public class RuudukkoTest {
     }
     
     @Test
+    public void miinojenMaaraEiVoiOllaLiianSuuri() {
+        ruudukko = new Ruudukko(15, 14, 9999999);
+        int miinojenMaksimiMaara = this.ruudukko.ruudukonKorkeus() * this.ruudukko.ruudukonLeveys() / 4;
+        assertEquals(miinojenMaksimiMaara, this.ruudukko.miinojenMaara());
+    }
+    
+    @Test
     public void eiKahtaMiinaaPaallekkain() {
         ruudukko.asetaMiina(8, 8);
         assertEquals(false, ruudukko.asetaMiina(8, 8));

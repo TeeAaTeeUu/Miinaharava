@@ -1,7 +1,8 @@
 package tatu.miinaharava.logiikka;
 
 /**
- * Toimittaa yhden ruudun virkaa ristinollassa, pitää tiedon sisällöstään ja paikastaan.
+ * Toimittaa yhden ruudun virkaa ristinollassa, pitää tiedon sisällöstään ja
+ * paikastaan.
  */
 public class Ruutu {
 
@@ -15,9 +16,9 @@ public class Ruutu {
 
     /**
      * Luo Ruudun, joka tietää oman paikkansa kordinaatit
-     * 
-     * @param moneskoRivi
-     * @param moneskoRivilla
+     *
+     * @param moneskoRivi monennellako rivillä ruutu on
+     * @param moneskoRivilla monennellako sarakkeella ruutu on
      */
     public Ruutu(int moneskoRivi, int moneskoRivilla) {
         this.moneskoRivi = moneskoRivi;
@@ -25,8 +26,7 @@ public class Ruutu {
     }
 
     /**
-     * 
-     * 
+     *
      * @return Oman rivinsä.
      */
     public int palautaRivi() {
@@ -83,11 +83,9 @@ public class Ruutu {
 
     /**
      * Tarkistaa onko määrä jo asetettu, ja jos ei niin asettaa.
-     * 
+     *
      * @param montakoMiinaaYmparilla
-     * @return
-     * true, jos onnistuu.
-     * false, jos epännistuu.
+     * @return true, jos onnistuu. False, jos epännistuu.
      */
     public boolean asetaMontakoMiinaaYmparilla(int montakoMiinaaYmparilla) {
         if (this.onkoYmparillaOlevienMiinojenMaaraAnnettu == true) {
@@ -99,10 +97,10 @@ public class Ruutu {
     }
 
     /**
-     * Merkkaa ruudun potentiaalisena miinana. uudelleen merkkaaminen poistaa merkin.
+     * Merkkaa ruudun potentiaalisena miinana. uudelleen merkkaaminen poistaa
+     * merkin.
      *
-     * @return
-     * true/false josko onnistui.
+     * @return true/false josko onnistui.
      */
     public boolean merkkaa() {
         if (this.onkoMerkattu == true) {
@@ -116,7 +114,7 @@ public class Ruutu {
     /**
      * asettaa ruutuun miinan. Vain pelin alustusvaiheessa käytössä.
      *
-     * @return
+     * @return true/false, jos onnistui/epäonnistui.
      */
     public boolean asetaMiina() {
         if (this.onkoMiina == true) {
@@ -129,7 +127,7 @@ public class Ruutu {
     /**
      * Laittaa ruudun avatuksi.
      *
-     * @return
+     * @return aina true.
      */
     public boolean avaa() {
         this.onkoAvattu = true;
