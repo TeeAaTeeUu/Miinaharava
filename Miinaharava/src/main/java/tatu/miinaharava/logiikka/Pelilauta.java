@@ -8,6 +8,7 @@ public class Pelilauta extends Ruudukko {
 
     private boolean miinaAvattu = false;
     private boolean peliAlkanut = false;
+    private boolean peliVoitettu = false;
 
     /**
      * Luo miinoitetun pelilaudan vapaavalintaisella korkeudella, leveydellä ja
@@ -108,7 +109,9 @@ public class Pelilauta extends Ruudukko {
             this.asetaMiinaAvatuksi();
             return true;
         }
-        return this.avaaRuutuLoop(rivi, moneskoRivilla);
+        boolean onnistuikoRuutujenAvaaminen = this.avaaRuutuLoop(rivi, moneskoRivilla);
+
+        return onnistuikoRuutujenAvaaminen;
     }
 
     private boolean avaaRuutuLoop(int rivi, int moneskoRivilla) {
@@ -122,7 +125,9 @@ public class Pelilauta extends Ruudukko {
     }
 
     /**
-     *Tarkistaa ympäröidyt ruudut ruudun avauksen jälkeen, ja toimii pelilogiikan mukaisesti.
+     * Tarkistaa ympäröidyt ruudut ruudun avauksen jälkeen, ja toimii
+     * pelilogiikan mukaisesti.
+     *
      * @param rivi millä rivillä
      * @param moneskoRivilla millä sarakkeella
      * @return miinojen määrä.
@@ -165,5 +170,49 @@ public class Pelilauta extends Ruudukko {
             }
         }
         return 0;
+    }
+
+    private boolean tarkistaOnkoKaikkiMiinatMerkattu() {
+        for (int kasiteltavaRivi = 1; kasiteltavaRivi <= this.ruudukonKorkeus(); kasiteltavaRivi++) {
+            for (int kasiteltavaSarake = 1; kasiteltavaSarake <= this.ruudukonLeveys(); kasiteltavaSarake++) {
+                if (this.onkoRuutuMiinoitettu(kasiteltavaRivi, kasiteltavaSarake) == true) {
+                    if (this.onkoRuutuMerkattu(kasiteltavaRivi, kasiteltavaSarake) == false) {
+                        return false;
+                    }
+                }
+            }
+        }
+        this.asetaPeliVoitetuksi();
+
+        return true;
+    }
+
+    private boolean tarkistaOnkoKaikkiRuudutAvattu() {
+        for (int kasiteltavaRivi = 1; kasiteltavaRivi <= this.ruudukonKorkeus(); kasiteltavaRivi++) {
+            for (int kasiteltavaSarake = 1; kasiteltavaSarake <= this.ruudukonLeveys(); kasiteltavaSarake++) {
+                if (this.onkoRuutuMiinoitettu(kasiteltavaRivi, kasiteltavaSarake) == false) {
+                    if (this.onkoRuutuAvattu(kasiteltavaRivi, kasiteltavaSarake) == false) {
+                        return false;
+                    }
+                }
+            }
+        }
+        this.asetaPeliVoitetuksi();
+
+        return true;
+    }
+
+    public boolean OnkoPeliVoitettu() {
+        if (this.onkoPeliAlkanut() == true) {
+            this.tarkistaOnkoKaikkiMiinatMerkattu();
+            this.tarkistaOnkoKaikkiRuudutAvattu();
+        }
+        return this.peliVoitettu;
+    }
+ 
+    private void asetaPeliVoitetuksi() {
+        if (this.onkoMiinaAvattu() == false) {
+            this.peliVoitettu = true;
+        }
     }
 }

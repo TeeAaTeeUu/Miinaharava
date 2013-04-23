@@ -7,7 +7,8 @@ import javax.swing.SwingUtilities;
 import tatu.miinaharava.logiikka.Pelilauta;
 
 /**
- * Kuuntelee käyttäjän hiireneleitä ja reagoi niihin sen mukaan kuin on oletettavaa Ristinollalle. Käyttää hyväkseen Pelilautaa ja PelikenttaGUIta.
+ * Kuuntelee käyttäjän hiireneleitä ja reagoi niihin sen mukaan kuin on
+ * oletettavaa Ristinollalle. Käyttää hyväkseen Pelilautaa ja PelikenttaGUIta.
  */
 public class RuudunKuuntelija extends MouseAdapter {
 
@@ -25,30 +26,40 @@ public class RuudunKuuntelija extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent klik) {
-        RuutuGUI painettuRuutu = (RuutuGUI) klik.getSource();
-
-        if (SwingUtilities.isRightMouseButton(klik) == true) {
-            pelilauta.merkkaaRuutu(painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla());
-            painettuRuutu.setText("m");
+        if (pelilauta.onkoMiinaAvattu() == true) {
+            JOptionPane.showMessageDialog(null, "Osuit miinaan, hävisit!");
+        } else if (pelilauta.OnkoPeliVoitettu() == true) {
+            JOptionPane.showMessageDialog(null, "Voitit pelin!");
         } else {
-            if (pelilauta.onkoPeliAlkanut() == false) {
-                pelilauta.miinoitaRuudukko(pelilauta.miinojenMaara(), painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla());
-                pelilauta.asetaPeliAlkaneeksi();
-            }
+            RuutuGUI painettuRuutu = (RuutuGUI) klik.getSource();
 
-            if (pelilauta.onkoRuutuMerkattu(painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla()) == false) {
-                pelilauta.avaaRuutu(painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla());
-                painettuRuutu.setOpaque(true);
-                painettuRuutu.setBorder(null);
-            } else {
+            if (SwingUtilities.isRightMouseButton(klik) == true) {
                 pelilauta.merkkaaRuutu(painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla());
-                painettuRuutu.setText("");
-            }
+                if (pelilauta.onkoRuutuMerkattu(painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla())) {
+                    painettuRuutu.setText("m");
+                } else {
+                    painettuRuutu.setText("");
+                }
+            } else {
+                if (pelilauta.onkoPeliAlkanut() == false) {
+                    pelilauta.miinoitaRuudukko(pelilauta.miinojenMaara(), painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla());
+                    pelilauta.asetaPeliAlkaneeksi();
+                }
 
-            gui.paivitaPelikentta();
+                if (pelilauta.onkoRuutuMerkattu(painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla()) == false) {
+                    pelilauta.avaaRuutu(painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla());
+                    painettuRuutu.setOpaque(true);
+                    painettuRuutu.setBorder(null);
+                }
 
-            if (pelilauta.onkoMiinaAvattu() == true) {
-                JOptionPane.showMessageDialog(null, "Osuit miinaan, hävisit!");
+                if (pelilauta.onkoMiinaAvattu() == true) {
+                    JOptionPane.showMessageDialog(null, "Osuit miinaan, hävisit!");
+                }
+                if (pelilauta.OnkoPeliVoitettu() == true) {
+                    JOptionPane.showMessageDialog(null, "Voitit pelin!");
+                }
+
+                gui.paivitaPelikentta();
             }
         }
     }

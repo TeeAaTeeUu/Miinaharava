@@ -20,7 +20,7 @@ public final class PelikenttaGUI extends JFrame {
     private RuudunKuuntelija ruudunKuuntelija;
 
     public PelikenttaGUI() {
-        this.pelilauta = new Pelilauta(50, 50, 300, false);
+        this.pelilauta = new Pelilauta(50, 50, 10, false);
         this.ruudunKuuntelija = new RuudunKuuntelija(this.pelilauta, this);
 
         this.valmistelePeli();
