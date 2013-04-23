@@ -3,8 +3,10 @@ package tatu.miinaharava.gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import tatu.miinaharava.logiikka.Pelilauta;
 
@@ -20,13 +22,19 @@ public final class PelikenttaGUI extends JFrame {
     private RuudunKuuntelija ruudunKuuntelija;
 
     public PelikenttaGUI() {
-        this.pelilauta = new Pelilauta(50, 50, 10, false);
+        
+        int korkeus = kysyLukua("Kuinka korkean kentän haluat?");
+        int leveys = kysyLukua("Kuinka leveän kentän haluat?");
+        int miinoja = kysyLukua("Kuinka monta miinaa haluat?");
+        this.pelilauta = new Pelilauta(korkeus, leveys, miinoja, false);
         this.ruudunKuuntelija = new RuudunKuuntelija(this.pelilauta, this);
 
         this.valmistelePeli();
     }
 
     public void valmistelePeli() {
+        
+        
         asetaRuudukko();
 
         for (int kasiteltavaRivi = 1; kasiteltavaRivi <= this.pelilauta.ruudukonKorkeus(); kasiteltavaRivi++) {
@@ -116,6 +124,17 @@ public final class PelikenttaGUI extends JFrame {
         if (this.pelilauta.onkoRuutuMiinoitettu(kasiteltavaRivi, kasiteltavaRuutuRivilla) == true) {
             this.ruudut[kasiteltavaRivi][kasiteltavaRuutuRivilla].setText("X");
         }
+    }
+
+    private int kysyLukua(String teksti) throws HeadlessException, NumberFormatException {
+        int luku;
+        luku = Integer.parseInt( JOptionPane.showInputDialog(teksti) );
+        
+        return luku;
+    }
+    
+    public Pelilauta palautaPelilauta() {
+        return this.pelilauta;
     }
 
 }

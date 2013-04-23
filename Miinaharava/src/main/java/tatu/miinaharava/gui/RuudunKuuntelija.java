@@ -12,8 +12,8 @@ import tatu.miinaharava.logiikka.Pelilauta;
  */
 public class RuudunKuuntelija extends MouseAdapter {
 
-    private final Pelilauta pelilauta;
-    private final PelikenttaGUI gui;
+    private Pelilauta pelilauta;
+    private PelikenttaGUI gui;
 
     public RuudunKuuntelija(Pelilauta pelilauta, PelikenttaGUI gui) {
         this.pelilauta = pelilauta;
@@ -54,6 +54,9 @@ public class RuudunKuuntelija extends MouseAdapter {
 
                 if (pelilauta.onkoMiinaAvattu() == true) {
                     JOptionPane.showMessageDialog(null, "Osuit miinaan, hävisit!");
+                    JOptionPane.showMessageDialog(null, "Koska hävisit, aloitamme uuden pelin!");
+                    gui = new PelikenttaGUI();
+                    pelilauta = gui.palautaPelilauta();
                 }
                 if (pelilauta.OnkoPeliVoitettu() == true) {
                     JOptionPane.showMessageDialog(null, "Voitit pelin!");
