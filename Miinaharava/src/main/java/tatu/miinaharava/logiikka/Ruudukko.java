@@ -131,11 +131,7 @@ public class Ruudukko {
             int kasiteltavaSarake = this.luoRandom(this.ruudukonLeveys());
 
             if (this.onkoRuutuMiinoitettu(kasiteltavaRivi, kasiteltavaSarake) == false) {
-                if ((mitaRiviaPainettu == kasiteltavaRivi && MitaSarakettaPainettu == kasiteltavaSarake) == false) {
-
-                        this.asetaMiina(kasiteltavaRivi, kasiteltavaSarake);
-                        asetetutMiinat++;
-                }
+                asetetutMiinat += asetaMiinaJosEiPainettu(mitaRiviaPainettu, kasiteltavaRivi, MitaSarakettaPainettu, kasiteltavaSarake);
             }
         }
     }
@@ -297,8 +293,8 @@ public class Ruudukko {
 
     private void asetaMontakoMiinaa(int montakoMiinaa) {
         int ruutujenMaara = this.ruudukonKorkeus() * this.ruudukonLeveys();
-        if (montakoMiinaa < 10) {
-            this.montakoMiinaa = 10;
+        if (montakoMiinaa < 5) {
+            this.montakoMiinaa = 5;
         } else if (montakoMiinaa > ruutujenMaara / 4) {
             this.montakoMiinaa = ruutujenMaara / 4;
         } else {
@@ -319,14 +315,34 @@ public class Ruudukko {
     }
 
     private void asetaRuudukonLeveysJaKorkeus(int leveys, int korkeus) {
+        asetaLeveys(leveys);
+        asetaKorkeus(korkeus);
+    }
+
+    private int asetaMiinaJosEiPainettu(int mitaRiviaPainettu, int kasiteltavaRivi, int MitaSarakettaPainettu, int kasiteltavaSarake) {
+        if ((mitaRiviaPainettu == kasiteltavaRivi && MitaSarakettaPainettu == kasiteltavaSarake) == false) {
+
+                this.asetaMiina(kasiteltavaRivi, kasiteltavaSarake);
+                return 1;
+        }
+        return 0;
+    }
+
+    private void asetaLeveys(int leveys) {
         if (leveys < 5) {
             this.leveys = 5;
+        } else if(leveys > 50) {
+            this.leveys = 50;
         } else {
             this.leveys = leveys;
         }
+    }
 
+    private void asetaKorkeus(int korkeus) {
         if (korkeus < 5) {
             this.korkeus = 5;
+        } else if(korkeus > 50) {
+            this.korkeus = 50;
         } else {
             this.korkeus = korkeus;
         }

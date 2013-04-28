@@ -62,6 +62,18 @@ public class RuudukkoTest {
     }
 
     @Test
+    public void KorkeusOnOikeaKunLiiasuuriAsetettu() {
+        ruudukko = new Ruudukko(75, 45, 5);
+        assertEquals(50, this.ruudukko.ruudukonKorkeus());
+    }
+    
+    @Test
+    public void leveysOnOikeaKunLiianSuuriAsetettu() {
+        ruudukko = new Ruudukko(45, 75, 5);
+        assertEquals(50, this.ruudukko.ruudukonLeveys());
+    }
+
+    @Test
     public void KorkeusOnOikeaKunLiianPieniAsetettu() {
         ruudukko = new Ruudukko(3, 3, 5);
         assertEquals(5, this.ruudukko.ruudukonKorkeus());
@@ -76,6 +88,12 @@ public class RuudukkoTest {
     @Test
     public void miinojaOnOikeaMaaraVakiona() {
         assertEquals(20, this.ruudukko.miinojenMaara());
+    }
+    
+    @Test
+    public void miinojaOnOikeaMaaraJosLiianPieniAnnettu() {
+        ruudukko = new Ruudukko(3, 3, 4);
+        assertEquals(5, this.ruudukko.miinojenMaara());
     }
 
     @Test

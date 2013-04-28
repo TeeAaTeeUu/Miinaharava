@@ -1,5 +1,6 @@
 package tatu.miinaharava.gui;
 
+import java.awt.HeadlessException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
@@ -14,56 +15,123 @@ public class RuudunKuuntelija extends MouseAdapter {
 
     private Pelilauta pelilauta;
     private PelikenttaGUI gui;
+    private RuutuGUI painettuRuutu;
 
+    /**
+     * Luo ruudunkuuntelijan, joka toimii pelilogiikan mukaisesti käyttäen hyödykseen sille annettuap pelilautaa. PelikenttäGUI:ta käyttää päivitysten pakottamiseen.
+     * @param pelilauta
+     * @param gui
+     */
     public RuudunKuuntelija(Pelilauta pelilauta, PelikenttaGUI gui) {
         this.pelilauta = pelilauta;
         this.gui = gui;
     }
 
-    RuudunKuuntelija() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    /**
+     *Tekee sen kaiken, mitä tarvitaan, kun jotain nappia on painettu.
+     * @param klik
+     */
     @Override
     public void mousePressed(MouseEvent klik) {
-        if (pelilauta.onkoMiinaAvattu() == true) {
-            JOptionPane.showMessageDialog(null, "Osuit miinaan, hävisit!");
-        } else if (pelilauta.OnkoPeliVoitettu() == true) {
-            JOptionPane.showMessageDialog(null, "Voitit pelin!");
-        } else {
-            RuutuGUI painettuRuutu = (RuutuGUI) klik.getSource();
+        this.pelinPaattymisTarkistus();
 
-            if (SwingUtilities.isRightMouseButton(klik) == true) {
-                pelilauta.merkkaaRuutu(painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla());
-                if (pelilauta.onkoRuutuMerkattu(painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla())) {
-                    painettuRuutu.setText("m");
-                } else {
-                    painettuRuutu.setText("");
-                }
+        if (onkoPeliPaattynyt() == false) {
+
+            this.painettuRuutu = this.palautaPainettuRuutu(klik);
+
+            if (this.onkoOikeaaPainettu(klik) == true) {
+                merkkaaPainettuRuutu();
             } else {
-                if (pelilauta.onkoPeliAlkanut() == false) {
-                    pelilauta.miinoitaRuudukko(pelilauta.miinojenMaara(), painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla());
-                    pelilauta.asetaPeliAlkaneeksi();
-                }
-
-                if (pelilauta.onkoRuutuMerkattu(painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla()) == false) {
-                    pelilauta.avaaRuutu(painettuRuutu.palautaRivi(), painettuRuutu.palautaMoneskoRivilla());
-                    painettuRuutu.setOpaque(true);
-                    painettuRuutu.setBorder(null);
-                }
-
-                if (pelilauta.onkoMiinaAvattu() == true) {
-                    JOptionPane.showMessageDialog(null, "Osuit miinaan, hävisit!");
-                    JOptionPane.showMessageDialog(null, "Koska hävisit, aloitamme uuden pelin!");
-                    gui = new PelikenttaGUI();
-                    pelilauta = gui.palautaPelilauta();
-                }
-                if (pelilauta.OnkoPeliVoitettu() == true) {
-                    JOptionPane.showMessageDialog(null, "Voitit pelin!");
-                }
-
-                gui.paivitaPelikentta();
+                vasentaNappiaPainettu();
             }
         }
+        gui.paivitaPelikentta();
+
+        this.pelinPaattymisTarkistus();
+    }
+
+    private void vasentaNappiaPainettu() throws HeadlessException {
+        if (pelilauta.onkoPeliAlkanut() == false) {
+            miinoitaJaAloita();
+        }
+
+        if (onkoPainettuRuutuMerkattu() == false) {
+            vasenNappiEiMerkattu();
+        }
+    }
+
+    private void pelinPaattymisTarkistus() throws HeadlessException {
+        if (onkoPeliPaattynyt() == true) {
+            if (pelilauta.onkoMiinaAvattu() == true) {
+                miinaAvattu();
+            } else if (pelilauta.OnkoPeliVoitettu() == true) {
+                peliVoitettu();
+            }
+        }
+    }
+
+    private boolean onkoOikeaaPainettu(MouseEvent klik) {
+        return SwingUtilities.isRightMouseButton(klik);
+    }
+
+    private RuutuGUI palautaPainettuRuutu(MouseEvent klik) {
+        return (RuutuGUI) klik.getSource();
+    }
+
+    private void miinoitaJaAloita() {
+        pelilauta.miinoitaRuudukko(pelilauta.miinojenMaara(), mitaRiviaPainettu(), mitaSarakettaPainettu());
+        pelilauta.asetaPeliAlkaneeksi();
+    }
+
+    private boolean onkoPainettuRuutuMerkattu() {
+        return pelilauta.onkoRuutuMerkattu(mitaRiviaPainettu(), mitaSarakettaPainettu());
+    }
+
+    private boolean merkkaaPainettuRuutu() {
+        return pelilauta.merkkaaRuutu(mitaRiviaPainettu(), mitaSarakettaPainettu());
+    }
+
+    private void avaaPainettuRuutu() {
+        pelilauta.avaaRuutu(mitaRiviaPainettu(), mitaSarakettaPainettu());
+    }
+
+    private void vasenNappiEiMerkattu() {
+        if (onkoAvattu() == false) {
+            avaaPainettuRuutu();
+        }
+    }
+
+    private void miinaAvattu() throws HeadlessException {     
+        peliHavitty();
+        JOptionPane.showMessageDialog(null, "Koska hävisit, aloitamme uuden pelin!");
+        gui.tapaItsesi(); // hehe :)
+        Main.aloitaPeli(this.pelilauta.ruudukonKorkeus(), this.pelilauta.ruudukonLeveys(), this.pelilauta.miinojenMaara());
+    }
+
+    private void peliVoitettu() throws HeadlessException {
+        JOptionPane.showMessageDialog(null, "Voitit pelin!");
+    }
+
+    private void peliHavitty() throws HeadlessException {
+        JOptionPane.showMessageDialog(null, "Osuit miinaan, hävisit!");
+    }
+
+    private boolean onkoAvattu() {
+        return pelilauta.onkoRuutuAvattu(mitaRiviaPainettu(), mitaSarakettaPainettu());
+    }
+
+    private int mitaSarakettaPainettu() {
+        return painettuRuutu.palautaMoneskoRivilla();
+    }
+
+    private int mitaRiviaPainettu() {
+        return painettuRuutu.palautaRivi();
+    }
+
+    private boolean onkoPeliPaattynyt() {
+        if (pelilauta.onkoMiinaAvattu() || pelilauta.OnkoPeliVoitettu()) {
+            return true;
+        }
+        return false;
     }
 }

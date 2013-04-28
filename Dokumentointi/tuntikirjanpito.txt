@@ -3,4 +3,7 @@ TuntikirjanpitoPäivämäärä		kesto		aihe12.03.2013		1h		Github pystyttäm
 15.03.2013		2h		-- ** --
 19.03.2013		1h		Luokkakaavionpiirtäminen, github-push
 25.03.2013		7h		Graafisen ympäristön kokoonlaittamista, luokkarakenteen muokkausta, jne
-26.03.2013		1h		Luokkakaavionpiirtäminen, github-push
+26.03.2013		1h		Luokkakaavionpiirtäminen, github-push
+
+*_*_*_*_*_*_*_*unohtui*_*_*_*_*_*_*_*_*
+24-28.04.2013		10h		Yleistä säätämistä grafiikan kanssa, refaktorointia, dokumentaation tekemistä, virheisiin varautumista, jne

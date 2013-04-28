@@ -28,9 +28,9 @@ public class PelilautaTest {
         for (int kasiteltavaRivi = 1; kasiteltavaRivi <= this.pelilauta.ruudukonKorkeus(); kasiteltavaRivi++) {
             for (int kasiteltavaRuutuRivilla = 1; kasiteltavaRuutuRivilla <= this.pelilauta.ruudukonLeveys(); kasiteltavaRuutuRivilla++) {
                 if (this.pelilauta.onkoRuutuAvattu(kasiteltavaRivi, kasiteltavaRuutuRivilla)) {
-                    System.out.print("X ");
+                    System.out.print("avattu ");
                 } else {
-                    System.out.print("O ");
+                    System.out.print("kiinni ");
                 }
             }
             System.out.println("");

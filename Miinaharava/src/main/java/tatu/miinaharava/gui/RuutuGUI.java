@@ -26,7 +26,6 @@ public class RuutuGUI extends JButton {
 
         setMargin(rajat);
         setPreferredSize(d);
-        setVisible(true);
 
         addMouseListener(this.ruudunKuuntelija);
     }

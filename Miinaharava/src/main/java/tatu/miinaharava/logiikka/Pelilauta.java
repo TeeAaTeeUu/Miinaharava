@@ -109,9 +109,7 @@ public class Pelilauta extends Ruudukko {
             this.asetaMiinaAvatuksi();
             return true;
         }
-        boolean onnistuikoRuutujenAvaaminen = this.avaaRuutuLoop(rivi, moneskoRivilla);
-
-        return onnistuikoRuutujenAvaaminen;
+        return this.avaaRuutuLoop(rivi, moneskoRivilla);
     }
 
     private boolean avaaRuutuLoop(int rivi, int moneskoRivilla) {
@@ -129,37 +127,29 @@ public class Pelilauta extends Ruudukko {
      * pelilogiikan mukaisesti.
      *
      * @param rivi millä rivillä
-     * @param moneskoRivilla millä sarakkeella
+     * @param mikaSarake millä sarakkeella
      * @return miinojen määrä.
      */
-    protected int tarkistaYmparoidytRuudut(int rivi, int moneskoRivilla) {
+    protected int tarkistaYmparoidytRuudut(int mikaRivi, int mikaSarake) {
         int miinojenMaara = 0;
-
-        miinojenMaara += this.tarkistaRuutu(rivi - 1, moneskoRivilla - 1);
-        miinojenMaara += this.tarkistaRuutu(rivi - 1, moneskoRivilla);
-        miinojenMaara += this.tarkistaRuutu(rivi - 1, moneskoRivilla + 1);
-        miinojenMaara += this.tarkistaRuutu(rivi, moneskoRivilla - 1);
-        miinojenMaara += this.tarkistaRuutu(rivi, moneskoRivilla + 1);
-        miinojenMaara += this.tarkistaRuutu(rivi + 1, moneskoRivilla - 1);
-        miinojenMaara += this.tarkistaRuutu(rivi + 1, moneskoRivilla);
-        miinojenMaara += this.tarkistaRuutu(rivi + 1, moneskoRivilla + 1);
-
+        
+        for (int riviMuutos = -1; riviMuutos <= 1; riviMuutos++) {
+            for (int sarakeMuutos = -1; sarakeMuutos <= 1; sarakeMuutos++) {
+                miinojenMaara += this.tarkistaRuutu(mikaRivi + riviMuutos, mikaSarake + sarakeMuutos);
+            }
+        }
         if (miinojenMaara >= 0 && miinojenMaara <= 8) {
             return miinojenMaara;
         }
         return -1;
     }
 
-    private boolean avaaYmparoidutRuudut(int rivi, int moneskoRivilla) {
-        this.avaaRuutu(rivi - 1, moneskoRivilla - 1);
-        this.avaaRuutu(rivi - 1, moneskoRivilla);
-        this.avaaRuutu(rivi - 1, moneskoRivilla + 1);
-        this.avaaRuutu(rivi, moneskoRivilla - 1);
-        this.avaaRuutu(rivi, moneskoRivilla + 1);
-        this.avaaRuutu(rivi + 1, moneskoRivilla - 1);
-        this.avaaRuutu(rivi + 1, moneskoRivilla);
-        this.avaaRuutu(rivi + 1, moneskoRivilla + 1);
-
+    private boolean avaaYmparoidutRuudut(int mikaRivi, int mikaSarake) {
+        for (int riviMuutos = -1; riviMuutos <= 1; riviMuutos++) {
+            for (int sarakeMuutos = -1; sarakeMuutos <= 1; sarakeMuutos++) {
+                this.avaaRuutu(mikaRivi + riviMuutos, mikaSarake + sarakeMuutos);
+            }
+        }
         return true;
     }
 

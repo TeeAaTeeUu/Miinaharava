@@ -4,10 +4,18 @@ public class Main {
 
     /**
      * Aloittaa pelin
-     * 
+     *
      * @param args
      */
     public static void main(String[] args) {
-        PelikenttaGUI peli = new PelikenttaGUI();
+        aloitaPeli(10,10,10);
+    }
+
+    public static void aloitaPeli(int korkeus, int leveys, int miinoja) {
+        new PelikenttaGUI(korkeus, leveys, miinoja);
+    }
+
+    public static void aloitaPeli() {
+        new PelikenttaGUI();
     }
 }
